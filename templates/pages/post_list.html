@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Posts</h2>
+  {% if user.is_authenticated %}
+  <a href="/pages/crear/" class="btn btn-primary">Publicar</a>
+  {% endif %}
+</div>
+<form method="get" class="mb-4">
+  <div class="row g-2">
+    <div class="col-md-4"><input type="text" name="q" class="form-control" placeholder="Buscar..." value="{{ request.GET.q }}"></div>
+    <div class="col-md-3">
+      <select name="tipo" class="form-select">
+        <option value="">Todos los tipos</option>
+        <option value="apunte">Apunte</option>
+        <option value="parcial">Parcial resuelto</option>
+        <option value="clase">Clase particular</option>
+        <option value="noticia">Noticia</option>
+        <option value="proyecto">Proyecto</option>
+        <option value="link">Link WhatsApp</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select name="anio" class="form-select">
+        <option value="">Todos los anos</option>
+        <option value="1">1er ano</option>
+        <option value="2">2do ano</option>
+        <option value="3">3er ano</option>
+        <option value="4">4to ano</option>
+        <option value="5">5to ano</option>
+      </select>
+    </div>
+    <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Filtrar</button></div>
+  </div>
+</form>
+{% if posts %}
+  {% for post in posts %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <span class="badge bg-primary">{{ post.get_tipo_display }}</span>
+        <small class="text-muted">{{ post.fecha|date:"d/m/Y" }}</small>
+      </div>
+      <h5 class="card-title mt-2">{{ post.titulo }}</h5>
+      <p class="text-muted">{{ post.materia }} - {{ post.get_anio_display }}</p>
+      <p class="text-muted">Por: {{ post.autor.username }}</p>
+      <a href="/pages/{{ post.pk }}/" class="btn btn-outline-primary btn-sm">Leer mas</a>
+      {% if user == post.autor %}
+      <a href="/pages/{{ post.pk }}/editar/" class="btn btn-outline-secondary btn-sm">Editar</a>
+      <a href="/pages/{{ post.pk }}/borrar/" class="btn btn-outline-danger btn-sm">Borrar</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">No hay paginas aun.</div>
+{% endif %}
+{% endblock %}

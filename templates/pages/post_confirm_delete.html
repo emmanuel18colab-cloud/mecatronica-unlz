@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4 text-center">
+      <h3>Confirmar borrado</h3>
+      <p class="mt-3">Estas seguro que queres borrar <strong>{{ post.titulo }}</strong>?</p>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Si, borrar</button>
+        <a href="/pages/" class="btn btn-outline-secondary ms-2">Cancelar</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

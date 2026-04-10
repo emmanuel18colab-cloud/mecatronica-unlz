@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Bandeja de entrada</h3>
+{% if mensajes %}
+  {% for mensaje in mensajes %}
+  <div class="card mb-2 p-3">
+    <div class="d-flex justify-content-between">
+      <strong>{{ mensaje.remitente.username }}</strong>
+      <small class="text-muted">{{ mensaje.fecha|date:"d/m/Y H:i" }}</small>
+    </div>
+    <p class="mt-2 mb-1">{{ mensaje.contenido }}</p>
+    <a href="/messaging/conversacion/{{ mensaje.remitente.pk }}/" class="btn btn-sm btn-outline-primary">Ver conversacion</a>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">No tenes mensajes aun.</div>
+{% endif %}
+{% endblock %}
